@@ -1,10 +1,10 @@
-package com.example.subscription_purchased;
+package com.example.subscription;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SubscriptionPurchasedApplicationTests {
+class SubscriptionApplicationTests {
 
     @Test
     void contextLoads() {
