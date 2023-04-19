@@ -1,6 +1,11 @@
 package config;
 
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
-    @Value("${app-config.rabbit.exchange.subscription.topic}")
+    @Value("${app-config.rabbit.exchange.subscription-api}")
     private String subscriptionTopicExchange;
 
     @Value("${app-config.rabbit.routingKey.subscription-update}")
@@ -21,4 +26,23 @@ public class RabbitConfig {
     public TopicExchange subscriptionTopicExchange() {
         return new TopicExchange(subscriptionTopicExchange);
     }
+
+    @Bean
+    public Queue subscriptionQueue() {
+        return new Queue(subscriptionQueue, true);
+    }
+
+    @Bean
+    public Binding subscriptionTopicQueueBinding(TopicExchange topicExchange) {
+        return BindingBuilder
+                .bind(subscriptionQueue())
+                .to(topicExchange)
+                .with(subscriptionRoutingKey);
+    }
+
+    @Bean
+    public MessageConverter jsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
+
 }

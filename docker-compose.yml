@@ -28,9 +28,9 @@ services:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
 
-  subscription:
-    build: './subscription'
-    container_name: subscription
+  subscription-api:
+    build: './subscription-api'
+    container_name: subscription-api
     depends_on:
       - subscription-db
       - subscription_rabbit
