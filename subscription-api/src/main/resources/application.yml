@@ -7,7 +7,7 @@ spring:
     allow-bean-definition-overriding: true # permite usar criar um bean de um serviço interno do próprio spring
 
   application:
-    name: subscription
+    name: subscription-api
 
 
   #Preciso configurar o resto
