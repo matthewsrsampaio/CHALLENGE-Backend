@@ -28,12 +28,8 @@ public class SubscriptionModel {
     private String status;
 
     @Column(name = "CREATED_AT", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
-    }
+    private LocalDateTime createdAt = LocalDateTime.now(); // <-Cada vez que houver uma nova instancia, a CreatedAt
+                                                            // recebera a data do momento de criação da instância
 
     //Converter a DTO para uma categoria do Banco de dados
     public static SubscriptionModel of(SubscriptionRequest request) {

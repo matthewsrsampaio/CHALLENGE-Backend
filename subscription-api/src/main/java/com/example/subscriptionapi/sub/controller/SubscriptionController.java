@@ -4,23 +4,25 @@ import com.example.subscriptionapi.sub.dto.SubscriptionRequest;
 import com.example.subscriptionapi.sub.dto.SubscriptionResponse;
 import com.example.subscriptionapi.sub.service.SubscriptionService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@RestController
-//@AllArgsConstructor
-//@RequestMapping("/api/subscription")
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api/subscription")
 public class SubscriptionController {
 
-//    Aqui é onde estou criando os métodos de "CRUD" que irei usar na aplicação
+//    Aqui é onde estou criando os endpoints de "CRUD" que irei usar na aplicação
 
-//    private final SubscriptionService subscriptionService;
-//
-//    @PostMapping
-//    public SubscriptionResponse save(@RequestBody SubscriptionRequest request) {
-//        return subscriptionService.save(request);
-//    }
+    private final SubscriptionService subscriptionService;
+
+    //SUBSCRIPTION_PURCHASED
+    @PostMapping
+    public SubscriptionResponse save(@RequestBody SubscriptionRequest request) {
+        return subscriptionService.save(request);
+    }
 //
 //    @GetMapping
 //    public List<SubscriptionResponse> findAll() {

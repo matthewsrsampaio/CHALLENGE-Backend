@@ -4,18 +4,17 @@ import com.example.subscriptionapi.sub.model.SubscriptionModel;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
-@Data
+@Data // <- Vai gerar os getters and setters
 //@Builder
 //@NoArgsConstructor
 //@AllArgsConstructor
 public class SubscriptionResponse {
 
-    //Não passar diretamente os objetos da model, por isso o description
-
     private Integer id;
-    private String description;
+    private String status;
+    private String name;
 
-    //converter essa model para response
+    //Copiar os dados da model para response
     public static SubscriptionResponse of(SubscriptionModel model) {
         var response = new SubscriptionResponse();
         BeanUtils.copyProperties(model, response); //vai copiar o objeto de origem para o objeto de destino
