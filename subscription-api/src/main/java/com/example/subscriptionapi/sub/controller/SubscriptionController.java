@@ -2,9 +2,9 @@ package com.example.subscriptionapi.sub.controller;
 
 import com.example.subscriptionapi.sub.dto.SubscriptionRequest;
 import com.example.subscriptionapi.sub.dto.SubscriptionResponse;
+import com.example.subscriptionapi.sub.repository.SubscriptionRepository;
 import com.example.subscriptionapi.sub.service.SubscriptionService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,28 +14,43 @@ import java.util.List;
 @RequestMapping("/api/subscription")
 public class SubscriptionController {
 
-//    Aqui é onde estou criando os endpoints de "CRUD" que irei usar na aplicação
-
     private final SubscriptionService subscriptionService;
 
-    //SUBSCRIPTION_PURCHASED
+//    SUBSCRIPTION_PURCHASED
     @PostMapping
     public SubscriptionResponse save(@RequestBody SubscriptionRequest request) {
         return subscriptionService.save(request);
     }
-//
-//    @GetMapping
-//    public List<SubscriptionResponse> findAll() {
-//        return subscriptionService.findAll();
-//    }
-//
-//    @GetMapping("{id}")
-//    public SubscriptionResponse findById(@PathVariable Integer id) {
-//        return subscriptionService.findByIdResponse(id);
-//    }
-//
-//    @PutMapping
-//    public SubscriptionResponse update(@RequestBody SubscriptionRequest request, @PathVariable Integer id) {
-//        return subscriptionService.update(request, id);
-//    }
+
+//    FIND ALL SUBSCRIPTIONS
+    @GetMapping("all")
+    public List<SubscriptionResponse> findAll() {
+        return subscriptionService.findAll();
+    }
+
+//    FIND SUBSCRIPTIONS BY ID
+    @GetMapping("{id}")
+    public SubscriptionResponse findById(@PathVariable Integer id) {
+        return subscriptionService.findByIdResponse(id);
+    }
+
+//    FIND SUBSCRIPTION BY CUSTOMER'S NAME
+    @GetMapping("name/{name}")
+    public List<SubscriptionResponse> findByName(@PathVariable String name) {
+        return subscriptionService.findByName(name);
+    }
+
+//    CANCEL SUBSCRIPTION BY ID
+    @PutMapping("cancel/{id}")
+    public SubscriptionResponse cancel(@RequestBody SubscriptionRequest request, @PathVariable Integer id) {
+        return subscriptionService.cancelled(request, id);
+    }
+
+//    RESTART SUBSCRIPTION BY ID
+    @PutMapping("restart/{id}")
+    public SubscriptionResponse restart(@RequestBody SubscriptionRequest request,
+                                       @PathVariable Integer id) {
+        return subscriptionService.restarted(request, id);
+    }
+
 }

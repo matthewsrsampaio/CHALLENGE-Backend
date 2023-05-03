@@ -8,3 +8,14 @@ docker run --name subscription_rabbit -p 5672:5672 -p 25676:25676 -p 15672:15672
 
 COMANDO PARA BUILDAR APLICAÇÃO
 docker-compose up --build
+
+CRIAR UMA IMAGEM USANDO DOCKERFILE:
+
+FROM gradle:7.6.0-jdk17
+COPY --chown=gradle:gradle . .
+WORKDIR .
+RUN gradle build -x test --no-daemon #dar build na aplicação excluindo o teste e o build do daemon
+EXPOSE 8081
+CMD ["gradle", "bootRun"]
+
+comando para executar -> docker image build build -t subscription-api
