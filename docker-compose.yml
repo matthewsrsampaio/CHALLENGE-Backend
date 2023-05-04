@@ -12,7 +12,7 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=123456
     ports:
-      - 5433:5432
+      - 5432:5432
 
   subscription_rabbit:
     image: rabbitmq:3-management
@@ -38,12 +38,11 @@ services:
       - subscription-network
     environment:
       - PORT=8081
-      #- API_SECRET=YXV0aC1hcGktc2VjcmV0LWNvbnRhaW5lci0xMjM0NTY=
+      - DB_PORT=5432
       - DB_HOST=subscription-db
       - DB_NAME=subscription-db
       - DB_USER=admin
       - DB_PASSWORD=123456
-      - DB_PORT=5432
       - RABBIT_MQ_HOST=subscription_rabbit
       - RABBIT_MQ_PORT=5672
       - RABBIT_MQ_USER=guest
@@ -54,3 +53,4 @@ services:
 networks:
   subscription-network:
     driver: bridge
+

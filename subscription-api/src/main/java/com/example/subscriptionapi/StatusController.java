@@ -22,16 +22,4 @@ public class StatusController {
         return response;
     }
 
-/*
-    @GetMapping("/status") //Busca por "api/status"; Se existir, o método é executado
-    public ResponseEntity<HashMap<String, Object>> getApiStatus() {
-        var response = new HashMap<String, Object>();
-
-        response.put("service", "Subscription-API");
-        response.put("status", "UP");
-        response.put("httpStatus", HttpStatus.OK.value());
-
-        return ResponseEntity.ok(response);
-    }
-*/
 }
