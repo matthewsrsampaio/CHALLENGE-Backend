@@ -1,6 +1,8 @@
 package com.example.subscriptionapi.sub.model;
 
 import com.example.subscriptionapi.sub.dto.SubscriptionRequest;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.Module;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Data //CREATES GETTER AND SETTERS, HASHMAPS, ETC..
@@ -29,8 +32,8 @@ public class SubscriptionModel {
     @Column(name = "STATUS", nullable = false)
     private String status;
 
-    @Column(name = "CREATED_AT", nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now(); // <-EVERY TIME A INSTANCE IS CREATED A NEW DATE IS SET
+//    @Column(name = "CREATED_AT", nullable = false, updatable = false)
+//    private LocalDateTime createdAt = LocalDateTime.now(); // <-EVERY TIME A INSTANCE IS CREATED A NEW DATE IS SET
 
     //COPIES REQUEST TO MODEL
     public static SubscriptionModel of(SubscriptionRequest request) {
@@ -38,5 +41,4 @@ public class SubscriptionModel {
         BeanUtils.copyProperties(request, subscriptionModel); //HERE IS WHERE THE MAGIC HAPPENS
         return subscriptionModel;
     }
-
 }

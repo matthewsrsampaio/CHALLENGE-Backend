@@ -18,9 +18,9 @@ public class SubscriptionResponse {
     private Integer id;
     private String name;
     private String status;
-    @JsonProperty("created_at")
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-    private LocalDateTime createdAt;
+//    @JsonProperty("created_at")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
+//    private LocalDateTime createdAt;
 
     //COPIES ALL MODEL TO RESPONSE
     public static SubscriptionResponse of(SubscriptionModel model) {

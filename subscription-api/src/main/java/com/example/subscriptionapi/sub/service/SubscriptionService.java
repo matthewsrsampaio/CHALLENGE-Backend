@@ -1,13 +1,20 @@
 package com.example.subscriptionapi.sub.service;
 
+
 import com.example.subscriptionapi.sub.config.exception.ValidationException;
+import com.example.subscriptionapi.sub.dto.SubscriptionDTO;
 import com.example.subscriptionapi.sub.dto.SubscriptionRequest;
 import com.example.subscriptionapi.sub.dto.SubscriptionResponse;
+import com.example.subscriptionapi.sub.rabbitmq.SubscriptionProducer;
 import com.example.subscriptionapi.sub.model.SubscriptionModel;
 import com.example.subscriptionapi.sub.repository.SubscriptionRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,16 +26,19 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 public class SubscriptionService {
 
     private final SubscriptionRepository subscriptionRepository;
+    @Autowired
+    private final SubscriptionProducer subscriptionProducer;
 
 //    SUBSCRIPTION_PURCHASED
-    public SubscriptionResponse save(SubscriptionRequest request) {
+    public SubscriptionResponse saveSubscription(SubscriptionRequest request) {
         request.setStatus("activated"); // <-quando houver um nova inscrição, o activated vai ser setado automaticamente
         validateSubscriptionNameInformed(request);
+        subscriptionProducer.produceMessage(request);
         var subscriptionModel = subscriptionRepository.save(SubscriptionModel.of(request));
         return SubscriptionResponse.of(subscriptionModel);
     }
 
-//    SUBSCRIPTION_PURCHASED validation for empty cases
+    //    SUBSCRIPTION_PURCHASED validation for empty cases
     private void validateSubscriptionNameInformed(SubscriptionRequest request) {
         if(isEmpty(request.getName())) {
             throw new ValidationException("The NEW subscription was not informed");
@@ -65,7 +75,8 @@ public class SubscriptionService {
                 .collect(Collectors.toList());
     }
 
-    public SubscriptionResponse cancelled(SubscriptionRequest request, Integer id) {
+//    CANCEL SUBSCRIPTION
+    public SubscriptionResponse cancelSubscription(SubscriptionRequest request, Integer id) {
         SubscriptionModel subscription;
         subscription = SubscriptionModel.of(request);
         subscription.setId(id);
@@ -75,7 +86,8 @@ public class SubscriptionService {
         return SubscriptionResponse.of(subscription);
     }
 
-    public SubscriptionResponse restarted(SubscriptionRequest request, Integer id) {
+//    RESTART SUBSCRIPTION
+    public SubscriptionResponse restartSubscription(SubscriptionRequest request, Integer id) {
         SubscriptionModel subscription;
         subscription = SubscriptionModel.of(request);
         subscription.setId(id);
@@ -84,4 +96,5 @@ public class SubscriptionService {
         subscriptionRepository.save(subscription);
         return SubscriptionResponse.of(subscription);
     }
+
 }

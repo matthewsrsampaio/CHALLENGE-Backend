@@ -37,6 +37,7 @@ services:
     networks:
       - subscription-network
     environment:
+      - JAVA_OPTS=${JAVA_OPTS}
       - PORT=8081
       - DB_PORT=5432
       - DB_HOST=subscription-db
