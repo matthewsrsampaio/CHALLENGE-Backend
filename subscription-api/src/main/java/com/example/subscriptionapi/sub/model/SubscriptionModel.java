@@ -23,7 +23,7 @@ import java.util.Date;
 public class SubscriptionModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)  //CREATES A SEQUENCE TO HIBERNATE
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE)  //CREATES A SEQUENCE TO HIBERNATE
     private Integer id;
 
     @Column(name = "NAME", nullable = false)

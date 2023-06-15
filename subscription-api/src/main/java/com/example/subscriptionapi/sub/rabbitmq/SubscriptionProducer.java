@@ -1,6 +1,7 @@
 package com.example.subscriptionapi.sub.rabbitmq;
 
 import com.example.subscriptionapi.sub.dto.SubscriptionRequest;
+import com.example.subscriptionapi.sub.model.SubscriptionModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -23,11 +24,19 @@ public class SubscriptionProducer {
 
     public void produceMessage(SubscriptionRequest message) {
         try{
-            log.info("Sending message: {}", new ObjectMapper().writeValueAsString(message));
             rabbitTemplate.convertAndSend(subscriptionTopicExchange, subscriptionRoutingKey, message);
-            log.info("Message was sent successfully.");
+            log.info("Message sent: {}", new ObjectMapper().writeValueAsString(message));
         } catch (Exception e) {
-            log.info("Erro no metodo produceMessage", e);
+            log.info("Error in produceMessage method", e);
+        }
+    }
+
+    public void produceMessageSubscription(SubscriptionModel message) {
+        try{
+            rabbitTemplate.convertAndSend(subscriptionTopicExchange, subscriptionRoutingKey, message);
+            log.info("Message sent: {}", new ObjectMapper().writeValueAsString(message));
+        } catch (Exception e) {
+            log.info("Error in produceMessage method", e);
         }
     }
 

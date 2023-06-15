@@ -5,7 +5,7 @@
 -- INSERT INTO SUBS (ID, NAME, STATUS, CREATED_AT) VALUES (102, 'JONA', 'deactivated', CURRENT_TIMESTAMP);
 -- INSERT INTO SUBS (ID, NAME, STATUS, CREATED_AT) VALUES (103, 'JOA KIM', 'activated', CURRENT_TIMESTAMP);
 -- ************************************************************************************************************************
-INSERT INTO SUBS (ID, NAME, STATUS) VALUES (100, 'MARCOS', 'activated');
-INSERT INTO SUBS (ID, NAME, STATUS) VALUES (101, 'PREDO', 'deactivated');
-INSERT INTO SUBS (ID, NAME, STATUS) VALUES (102, 'JONA', 'deactivated');
-INSERT INTO SUBS (ID, NAME, STATUS) VALUES (103, 'JOA KIM', 'activated');
+INSERT INTO SUBS (ID, NAME, STATUS) VALUES (1, 'MARCOS', 'activated');
+INSERT INTO SUBS (ID, NAME, STATUS) VALUES (2, 'PREDO', 'deactivated');
+INSERT INTO SUBS (ID, NAME, STATUS) VALUES (3, 'JONA', 'deactivated');
+INSERT INTO SUBS (ID, NAME, STATUS) VALUES (4, 'JOA KIM', 'activated');
