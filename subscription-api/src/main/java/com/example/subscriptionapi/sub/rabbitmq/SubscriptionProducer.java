@@ -22,9 +22,13 @@ public class SubscriptionProducer {
     @Value("${app-config.rabbit.routingKey.subscription-update}")
     private String subscriptionRoutingKey;
 
+    @Value("${app-config.rabbit.routingKey.consumer-update}")
+    private String consumerRoutingKey;
+
     public void produceMessage(SubscriptionRequest message) {
         try{
             rabbitTemplate.convertAndSend(subscriptionTopicExchange, subscriptionRoutingKey, message);
+            rabbitTemplate.convertAndSend(subscriptionTopicExchange, consumerRoutingKey, message);
             log.info("Message sent: {}", new ObjectMapper().writeValueAsString(message));
         } catch (Exception e) {
             log.info("Error in produceMessage method", e);

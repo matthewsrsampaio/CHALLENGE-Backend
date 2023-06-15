@@ -1,4 +1,4 @@
-package com.example.subscriptionapi.sub.config;
+package com.example.consumerapi.rabbitConfig;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -16,12 +16,6 @@ public class RabbitConfig {
     @Value("${app-config.rabbit.exchange.subscription-api}")
     private String subscriptionTopicExchange;
 
-    @Value("${app-config.rabbit.routingKey.subscription-update}")
-    private String subscriptionRoutingKey;
-
-    @Value("${app-config.rabbit.queue.subscription-update}")
-    private String subscriptionQueue;
-
     @Value("${app-config.rabbit.routingKey.consumer-update}")
     private String consumerRoutingKey;
 
@@ -34,21 +28,8 @@ public class RabbitConfig {
     }
 
     @Bean
-    public Queue subscriptionQueue() {
-        return new Queue(subscriptionQueue, true);
-    }
-
-    @Bean
     public Queue consumerQueue() {
         return new Queue(consumerQueue, true);
-    }
-
-    @Bean
-    public Binding subscriptionTopicQueueBinding(TopicExchange topicExchange) {
-        return BindingBuilder
-                .bind(subscriptionQueue())
-                .to(topicExchange)
-                .with(subscriptionRoutingKey);
     }
 
     @Bean

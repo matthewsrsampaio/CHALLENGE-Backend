@@ -2,7 +2,6 @@ package com.example.subscriptionapi.sub.service;
 
 
 import com.example.subscriptionapi.sub.config.exception.ValidationException;
-import com.example.subscriptionapi.sub.dto.SubscriptionDTO;
 import com.example.subscriptionapi.sub.dto.SubscriptionRequest;
 import com.example.subscriptionapi.sub.dto.SubscriptionResponse;
 import com.example.subscriptionapi.sub.model.SubscriptionModel;
