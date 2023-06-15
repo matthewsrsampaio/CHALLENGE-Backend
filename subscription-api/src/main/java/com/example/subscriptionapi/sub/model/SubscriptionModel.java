@@ -14,16 +14,16 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 
-@Data //CREATES GETTER AND SETTERS, HASHMAPS, ETC..
-@Entity //INFORMS JAKARTA THAT THIS CLASS IS AN ENTITY
+@Data
+@Entity
 @Builder
-@NoArgsConstructor //CREATE EMPTY CONSTRUCTORS
-@AllArgsConstructor //CREATE CONSTRUCTORS
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "SUBS")
 public class SubscriptionModel {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE)  //CREATES A SEQUENCE TO HIBERNATE
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     @Column(name = "NAME", nullable = false)
@@ -33,12 +33,12 @@ public class SubscriptionModel {
     private String status;
 
 //    @Column(name = "CREATED_AT", nullable = false, updatable = false)
-//    private LocalDateTime createdAt = LocalDateTime.now(); // <-EVERY TIME A INSTANCE IS CREATED A NEW DATE IS SET
+//    private LocalDateTime createdAt = LocalDateTime.now();
 
     //COPIES REQUEST TO MODEL
     public static SubscriptionModel of(SubscriptionRequest request) {
         var subscriptionModel = new SubscriptionModel();
-        BeanUtils.copyProperties(request, subscriptionModel); //HERE IS WHERE THE MAGIC HAPPENS
+        BeanUtils.copyProperties(request, subscriptionModel);
         return subscriptionModel;
     }
 }

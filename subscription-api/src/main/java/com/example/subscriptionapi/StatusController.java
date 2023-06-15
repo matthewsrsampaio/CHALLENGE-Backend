@@ -11,7 +11,7 @@ import java.util.HashMap;
 @RequestMapping("/api")
 public class StatusController {
 
-    @GetMapping("/status") //Busca por "api/status"; Se existir, o método é executado
+    @GetMapping("/status")
     private HashMap<String, Object> getApiStatus() {
         var response = new HashMap<String, Object>();
 

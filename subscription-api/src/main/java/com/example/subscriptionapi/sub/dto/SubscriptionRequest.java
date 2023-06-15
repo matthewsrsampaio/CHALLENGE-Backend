@@ -2,7 +2,7 @@ package com.example.subscriptionapi.sub.dto;
 
 import lombok.Data;
 
-@Data // <- Vai gerar os getters and setters
+@Data
 public class SubscriptionRequest {
 
     private Integer id;

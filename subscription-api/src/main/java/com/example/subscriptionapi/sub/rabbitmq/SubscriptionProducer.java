@@ -38,6 +38,7 @@ public class SubscriptionProducer {
     public void produceMessageSubscription(SubscriptionModel message) {
         try{
             rabbitTemplate.convertAndSend(subscriptionTopicExchange, subscriptionRoutingKey, message);
+            rabbitTemplate.convertAndSend(subscriptionTopicExchange, consumerRoutingKey, message);
             log.info("Message sent: {}", new ObjectMapper().writeValueAsString(message));
         } catch (Exception e) {
             log.info("Error in produceMessage method", e);
