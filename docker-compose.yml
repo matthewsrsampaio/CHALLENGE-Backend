@@ -51,6 +51,24 @@ services:
     ports:
       - 8081:8081
 
+  consumer-api:
+    build: './consumer-api'
+    container_name: consumer-api
+    depends_on:
+      - subscription-db
+      - subscription_rabbit
+    networks:
+      - subscription-network
+    environment:
+      - JAVA_OPTS=${JAVA_OPTS}
+      - PORT=8082
+      - RABBIT_MQ_HOST=subscription_rabbit
+      - RABBIT_MQ_PORT=5672
+      - RABBIT_MQ_USER=guest
+      - RABBIT_MQ_PASSWORD=guest
+    ports:
+      - 8082:8082
+
 networks:
   subscription-network:
     driver: bridge
