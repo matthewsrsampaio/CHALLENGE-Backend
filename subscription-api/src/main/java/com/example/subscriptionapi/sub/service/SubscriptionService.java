@@ -2,15 +2,20 @@ package com.example.subscriptionapi.sub.service;
 
 
 import com.example.subscriptionapi.sub.config.exception.ValidationException;
+import com.example.subscriptionapi.sub.dto.SubscriptionDTO;
 import com.example.subscriptionapi.sub.dto.SubscriptionRequest;
 import com.example.subscriptionapi.sub.dto.SubscriptionResponse;
+import com.example.subscriptionapi.sub.dto.SubscriptionResponse2;
 import com.example.subscriptionapi.sub.model.SubscriptionModel;
+import com.example.subscriptionapi.sub.model.SubscriptionModel2;
 import com.example.subscriptionapi.sub.rabbitmq.SubscriptionProducer;
 import com.example.subscriptionapi.sub.repository.SubscriptionRepository;
+import com.example.subscriptionapi.sub.repository.SubscriptionRepository2;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +30,8 @@ public class SubscriptionService {
 
     @Autowired
     private final SubscriptionProducer subscriptionProducer;
+    private final SubscriptionRepository2 subscriptionRepository2;
 
-//    SUBSCRIPTION_PURCHASED
     public SubscriptionResponse saveSubscription(SubscriptionRequest request) {
         validateSubscriptionNameInformed(request);
         subscriptionProducer.produceMessage(request);
@@ -34,14 +39,12 @@ public class SubscriptionService {
         return SubscriptionResponse.of(subscriptionModel);
     }
 
-//    SUBSCRIPTION_PURCHASED validation for empty cases
     private void validateSubscriptionNameInformed(SubscriptionRequest request) {
         if(isEmpty(request.getName())) {
             throw new ValidationException("The NEW subscription was not informed");
         }
     }
 
-//    FIND ALL SUBSCRIPTIONS
     public List<SubscriptionResponse> findAll() {
         return subscriptionRepository
                 .findAll()
@@ -50,19 +53,16 @@ public class SubscriptionService {
                 .collect(Collectors.toList());
     }
 
-//    FIND A SUBSCRIPTION INFO BY ITS ID
     public SubscriptionModel findById(Integer id) {
         return subscriptionRepository
                 .findById(id)
                 .orElseThrow(() -> new ValidationException("The ID informed doesn't exist."));
     }
 
-//    ITS PART OF "FIND A SUBSCRIPTION INFO BY ITS ID", BUT RETURNS A RESPONSE.
     public SubscriptionResponse findByIdResponse(Integer id) {
         return SubscriptionResponse.of(findById(id));
     }
 
-//    SEARCH SUBSCRIPTION INFO BY CUSTOMER'S NAME
     public List<SubscriptionResponse> findByName(String name) {
         return subscriptionRepository
                 .findByNameIgnoreCaseContaining(name)
@@ -71,28 +71,28 @@ public class SubscriptionService {
                 .collect(Collectors.toList());
     }
 
-//    CANCEL SUBSCRIPTION
-    public SubscriptionResponse cancelSubscription(SubscriptionRequest request, Integer id) {
-        SubscriptionModel subscription;
-        subscription = SubscriptionModel.of(request);
+    public SubscriptionResponse2 cancelSubscription(SubscriptionRequest request, Integer id) {
+        SubscriptionModel2 subscription;
+        subscription = SubscriptionModel2.of(request);
         subscription.setId(id);
         subscription.setName(findById(id).getName());
         subscription.setStatus("deactivated");
-        subscriptionRepository.save(subscription);
-        subscriptionProducer.produceMessageSubscription(subscription); //Uma novo PRODUCER para enviar as mudanças feitas na Model
-        return SubscriptionResponse.of(subscription);
+        subscriptionRepository2.save(subscription);
+        subscription.setUpdatedAt(null);
+        subscriptionProducer.produceMessageSubscription2(subscription);
+        return SubscriptionResponse2.of(subscription);
     }
 
-//    RESTART SUBSCRIPTION
-    public SubscriptionResponse restartSubscription(SubscriptionRequest request, Integer id) {
-        SubscriptionModel subscription;
-        subscription = SubscriptionModel.of(request);
+    public SubscriptionResponse2 restartSubscription(SubscriptionRequest request, Integer id) {
+        SubscriptionModel2 subscription;
+        subscription = SubscriptionModel2.of(request);
         subscription.setId(id);
         subscription.setName(findById(id).getName());
         subscription.setStatus("activated");
-        subscriptionRepository.save(subscription);
-        subscriptionProducer.produceMessageSubscription(subscription); //Uma novo PRODUCER para enviar as mudanças feitas na Model
-        return SubscriptionResponse.of(subscription);
+        subscriptionRepository2.save(subscription);
+        subscription.setUpdatedAt(null);
+        subscriptionProducer.produceMessageSubscription2(subscription);
+        return SubscriptionResponse2.of(subscription);
     }
 
 }

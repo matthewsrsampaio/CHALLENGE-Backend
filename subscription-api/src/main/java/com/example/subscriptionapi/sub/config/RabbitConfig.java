@@ -59,8 +59,13 @@ public class RabbitConfig {
                 .with(consumerRoutingKey);
     }
 
+//    @Bean
+//    public MessageConverter jsonMessageConverter() {
+//        return new Jackson2JsonMessageConverter();
+//    }
+
     @Bean
-    public MessageConverter jsonMessageConverter() {
+    public Jackson2JsonMessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 

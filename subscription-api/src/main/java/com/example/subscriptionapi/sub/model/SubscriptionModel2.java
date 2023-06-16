@@ -2,10 +2,10 @@ package com.example.subscriptionapi.sub.model;
 
 import com.example.subscriptionapi.sub.dto.SubscriptionRequest;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.Module;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,9 +13,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 
 @Data
@@ -24,7 +22,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "SUBS")
-public class SubscriptionModel {
+public class SubscriptionModel2 {
 
     @Id
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -36,20 +34,15 @@ public class SubscriptionModel {
     @Column(name = "STATUS", nullable = false)
     private String status;
 
-    @Column(name = "CREATED_AT")
-//    @JsonFormat(pattern="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt = LocalDateTime.now();
-
     @Column(name = "UPDATED_AT")
 //    @JsonFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     //COPIES REQUEST TO MODEL
-    public static SubscriptionModel of(SubscriptionRequest request) {
-        var subscriptionModel = new SubscriptionModel();
-        BeanUtils.copyProperties(request, subscriptionModel);
-        return subscriptionModel;
+    public static SubscriptionModel2 of(SubscriptionRequest request) {
+        var subscriptionModel2 = new SubscriptionModel2();
+        BeanUtils.copyProperties(request, subscriptionModel2);
+        return subscriptionModel2;
     }
 }
