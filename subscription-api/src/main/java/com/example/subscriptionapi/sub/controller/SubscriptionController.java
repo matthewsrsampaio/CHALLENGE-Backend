@@ -16,37 +16,31 @@ public class SubscriptionController {
 
     private final SubscriptionService subscriptionService;
 
-//    SUBSCRIPTION_PURCHASED
     @PostMapping
     public SubscriptionResponse save(@RequestBody SubscriptionRequest request) {
         return subscriptionService.saveSubscription(request);
     }
 
-//    FIND ALL SUBSCRIPTIONS
     @GetMapping("all")
     public List<SubscriptionResponse> findAll() {
         return subscriptionService.findAll();
     }
 
-//    FIND SUBSCRIPTIONS BY ID
     @GetMapping("{id}")
     public SubscriptionResponse findById(@PathVariable Integer id) {
         return subscriptionService.findByIdResponse(id);
     }
 
-//    FIND SUBSCRIPTION BY CUSTOMER'S NAME
     @GetMapping("name/{name}")
     public List<SubscriptionResponse> findByName(@PathVariable String name) {
         return subscriptionService.findByName(name);
     }
 
-//    CANCEL SUBSCRIPTION BY ID
     @PutMapping("cancel/{id}")
     public SubscriptionResponse2 cancel(@RequestBody SubscriptionRequest request, @PathVariable Integer id) {
         return subscriptionService.cancelSubscription(request, id);
     }
 
-//    RESTART SUBSCRIPTION BY ID
     @PutMapping("restart/{id}")
     public SubscriptionResponse2 restart(@RequestBody SubscriptionRequest request,
                                        @PathVariable Integer id) {
