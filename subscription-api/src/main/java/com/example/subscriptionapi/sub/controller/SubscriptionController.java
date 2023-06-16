@@ -42,8 +42,7 @@ public class SubscriptionController {
     }
 
     @PutMapping("restart/{id}")
-    public SubscriptionResponse2 restart(@RequestBody SubscriptionRequest request,
-                                       @PathVariable Integer id) {
+    public SubscriptionResponse2 restart(@RequestBody SubscriptionRequest request, @PathVariable Integer id) {
         return subscriptionService.restartSubscription(request, id);
     }
 

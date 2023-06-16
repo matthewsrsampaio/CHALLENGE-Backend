@@ -17,8 +17,8 @@ public class SubscriptionConsumer {
 
     @RabbitListener(queues = "${app-config.rabbit.queue.subscription-update}")
     public void receiveSubscriptionMessage(SubscriptionDTO subDTO) throws JsonProcessingException {
-        objectMapper.writeValueAsString(subDTO);
-        log.info("Message received: {}", new ObjectMapper().writeValueAsString(subDTO), new ObjectMapper().registerModules());
+        this.objectMapper.writeValueAsString(subDTO);
+        log.info("Message received: {}", this.objectMapper.writeValueAsString(subDTO));
     }
 
 }

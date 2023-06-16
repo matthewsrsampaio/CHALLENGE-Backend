@@ -1,7 +1,5 @@
 package com.example.subscriptionapi.sub.rabbitmq;
 
-import com.example.subscriptionapi.sub.dto.SubscriptionDTO;
-import com.example.subscriptionapi.sub.dto.SubscriptionRequest;
 import com.example.subscriptionapi.sub.model.SubscriptionModel;
 import com.example.subscriptionapi.sub.model.SubscriptionModel2;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,21 +25,17 @@ public class SubscriptionProducer {
     @Value("${app-config.rabbit.routingKey.consumer-update}")
     private String consumerRoutingKey;
 
-    public void produceMessage(SubscriptionRequest message) {
-        try{
-            rabbitTemplate.convertAndSend(subscriptionTopicExchange, subscriptionRoutingKey, message);
-            rabbitTemplate.convertAndSend(subscriptionTopicExchange, consumerRoutingKey, message);
-            log.info("Message sent: {}", new ObjectMapper().writeValueAsString(message));
-        } catch (Exception e) {
-            log.info("Error in produceMessage method", e);
-        }
+    private final ObjectMapper objectMapper;
+
+    public SubscriptionProducer(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 
-    public void produceMessageSubscription(SubscriptionModel message) {
+    public void produceMessage(SubscriptionModel message) {
         try{
             rabbitTemplate.convertAndSend(subscriptionTopicExchange, subscriptionRoutingKey, message);
             rabbitTemplate.convertAndSend(subscriptionTopicExchange, consumerRoutingKey, message);
-            log.info("Message sent: {}", new ObjectMapper().writeValueAsString(message));
+            log.info("Message sent: {}", this.objectMapper.writeValueAsString(message));
         } catch (Exception e) {
             log.info("Error in produceMessage method", e);
         }
@@ -51,7 +45,7 @@ public class SubscriptionProducer {
         try{
             rabbitTemplate.convertAndSend(subscriptionTopicExchange, subscriptionRoutingKey, message);
             rabbitTemplate.convertAndSend(subscriptionTopicExchange, consumerRoutingKey, message);
-            log.info("Message sent: {}", new ObjectMapper().writeValueAsString(message));
+            log.info("Message sent: {}", this.objectMapper.writeValueAsString(message));
         } catch (Exception e) {
             log.info("Error in produceMessage method", e);
         }

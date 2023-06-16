@@ -12,7 +12,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
@@ -35,14 +34,18 @@ public class SubscriptionModel2 {
     private String status;
 
     @Column(name = "UPDATED_AT")
-//    @JsonFormat(pattern="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updatedAt;
 
-    //COPIES REQUEST TO MODEL
     public static SubscriptionModel2 of(SubscriptionRequest request) {
         var subscriptionModel2 = new SubscriptionModel2();
         BeanUtils.copyProperties(request, subscriptionModel2);
-        return subscriptionModel2;
+        return subscriptionModel2
+                .builder()
+                .name(request.getName())
+                .status(request.getStatus())
+                .updatedAt(LocalDateTime.now())
+                .build();
     }
+
 }

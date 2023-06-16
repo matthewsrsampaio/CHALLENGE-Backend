@@ -2,7 +2,6 @@ package com.example.subscriptionapi.sub.service;
 
 
 import com.example.subscriptionapi.sub.config.exception.ValidationException;
-import com.example.subscriptionapi.sub.dto.SubscriptionDTO;
 import com.example.subscriptionapi.sub.dto.SubscriptionRequest;
 import com.example.subscriptionapi.sub.dto.SubscriptionResponse;
 import com.example.subscriptionapi.sub.dto.SubscriptionResponse2;
@@ -15,7 +14,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,8 +32,10 @@ public class SubscriptionService {
 
     public SubscriptionResponse saveSubscription(SubscriptionRequest request) {
         validateSubscriptionNameInformed(request);
-        subscriptionProducer.produceMessage(request);
-        var subscriptionModel = subscriptionRepository.save(SubscriptionModel.of(request));
+        SubscriptionModel subscription;
+        subscription = SubscriptionModel.of(request);
+        subscriptionProducer.produceMessage(subscription);
+        var subscriptionModel = subscriptionRepository.save(subscription);
         return SubscriptionResponse.of(subscriptionModel);
     }
 
@@ -78,7 +78,6 @@ public class SubscriptionService {
         subscription.setName(findById(id).getName());
         subscription.setStatus("deactivated");
         subscriptionRepository2.save(subscription);
-        subscription.setUpdatedAt(null);
         subscriptionProducer.produceMessageSubscription2(subscription);
         return SubscriptionResponse2.of(subscription);
     }
@@ -90,7 +89,6 @@ public class SubscriptionService {
         subscription.setName(findById(id).getName());
         subscription.setStatus("activated");
         subscriptionRepository2.save(subscription);
-        subscription.setUpdatedAt(null);
         subscriptionProducer.produceMessageSubscription2(subscription);
         return SubscriptionResponse2.of(subscription);
     }

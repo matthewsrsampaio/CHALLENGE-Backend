@@ -22,11 +22,9 @@ public class SubscriptionResponse {
     private String name;
     private String status;
     @Column(name = "CREATED_AT")
-//    @JsonFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt = LocalDateTime.now();
     @Column(name = "UPDATED_AT")
-//    @JsonFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
@@ -36,18 +34,5 @@ public class SubscriptionResponse {
         BeanUtils.copyProperties(model, response);
         return response;
     }
-
-    public static SubscriptionResponse of(SubscriptionModel2 model) {
-        var response = new SubscriptionResponse();
-        BeanUtils.copyProperties(model, response);
-        return response;
-    }
-
-//    //COPIES ALL MODEL TO RESPONSE
-//    public static SubscriptionResponse of(SubscriptionDTO model) {
-//        var response = new SubscriptionResponse();
-//        BeanUtils.copyProperties(model, response);
-//        return response;
-//    }
 
 }
